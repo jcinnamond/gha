@@ -1,10 +1,7 @@
 name: Build haskell project
-on: 
-  push:
-    branches:
-      - main
+on: [push]
 jobs:
-  Build haskell project:
+  Build-haskell-project:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Building haskell project"
