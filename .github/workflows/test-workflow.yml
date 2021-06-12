@@ -1,0 +1,13 @@
+name: Build haskell project
+on: 
+  push:
+    branches:
+      - main
+jobs:
+  Build haskell project:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Building haskell project"
+      - uses: actions/checkout@v2
+      - uses: mstksg/setup-stack@v1
+      - run: stack build
