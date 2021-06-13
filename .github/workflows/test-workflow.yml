@@ -8,8 +8,8 @@ jobs:
       - name: Cache
         uses: actions/cache@v1
         with:
-          path: ~/.stack
-          
+          path: $HOME/.stack
+          key: ${{ runner.os }}-${{ hashFiles('**/stack.yaml.lock')}}
       - name: Installing stack from apt
         run: sudo apt install haskell-stack
       - name: Upgrading stack
