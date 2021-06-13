@@ -6,5 +6,8 @@ jobs:
     steps:
       - run: echo "Building haskell project"
       - uses: actions/checkout@v2
-      - uses: mstksg/setup-stack@v1
+      - name: Installing stack from apt
+        run: apt install stack
+      - name: Upgrading stack
+        run: stack upgrade --binary-only
       - run: stack build
