@@ -7,7 +7,7 @@ jobs:
       - run: echo "Building haskell project"
       - uses: actions/checkout@v2
       - name: Installing stack from apt
-        run: apt install stack
+        run: sudo apt install stack
       - name: Upgrading stack
         run: stack upgrade --binary-only
       - run: stack build
