@@ -16,30 +16,10 @@ jobs:
         run: stack upgrade --binary-only
       - run: stack build --copy-bins
 
-      - name: DEBUG - list files
-        run: ls -Ra ~
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - uses: ncipollo/release-action@v1
         with:
-          tag_name: 0.0.1.0
-          release_name: Release 0.0.1.0
+          artifacts: $HOME/.local/bin/gha-exe
+          token: ${{ secrets.GITHUB_TOKEN }}
           body: Auto-generated release
-          draft: false
-          prerelease: true
-
-      - name: DEBUG - try to list the exe
-        run: ls -l ~/.local/bin/gha-exe
-
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ~/.local/bin/gha-exe
-          asset_name: gha
-          asset_content_type: application/x-executable
+          name: 0.0.1.1
+          tag: 0.0.1.1
