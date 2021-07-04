@@ -1,5 +1,6 @@
 name: Build haskell project
 on: [push]
+    
 jobs:
   Build-haskell-project:
     runs-on: ubuntu-latest
@@ -16,10 +17,21 @@ jobs:
         run: stack upgrade --binary-only
       - run: stack build --copy-bins
 
-      - uses: ncipollo/release-action@v1
+      - name: create release
+        uses: actions/create-release@v1
+        id: create_release
         with:
-          artifacts: $HOME/.local/bin/gha-exe
-          token: ${{ secrets.GITHUB_TOKEN }}
+          release_name: test-release
+          tag_name: ${{ github.ref }}
           body: Auto-generated release
-          name: 0.0.1.1
-          tag: 0.0.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: upload artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: "~/.local/bin/gha-exe"
+          asset_name: gha
